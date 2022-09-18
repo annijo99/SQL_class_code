@@ -131,3 +131,62 @@ VALUES
 (70012, 250.45, DATE('2012-06-27'), 3008, 5002),
 (70011, 75.29, DATE('2012-08-17'), 3003, 5007),
 (70013, 3045.6, DATE('2012-04-25'), 3002, 5001); 
+
+--Q12: For the salesorder table, show how many orders there are
+SELECT COUNT(*)
+FROM salesorder;
+
+--Q13: Retrieve the average purchase amount of all orders
+SELECT AVG(purch_amt)
+FROM salesorder;
+
+--Q14: Retrieve the total number, average purchase amount, lowest purchase amount, and highest purchase amount of the orders after September 2012
+SELECT COUNT(*), AVG(purch_amt), MIN(purch_amt), MAX(purch_amt)
+FROM salesorder
+WHERE ord_date>='2012-10-01';
+
+--Q15: For each salesman, retrieve the salesman ID and the average purchase amount of the orders sold by the salesman
+SELECT salesman_id, AVG(purch_amt)
+FROM salesorder
+GROUP BY salesman_id;
+
+--Q16: For each salesman, retrieve the number and average purchase amount of the orders sold by the salesman
+SELECT salesman_id, COUNT(*), AVG(purch_amt)
+FROM salesorder
+GROUP BY salesman_id;
+
+--Q17: For each salesman, retrieve the salesman ID and the number of the orders with a purchase amount higher than $200 sold by the salesman
+SELECT salesman_id, COUNT(*)
+FROM salesorder
+WHERE purch_amt>200
+GROUP BY salesman_id;
+
+--Q18: For each group of orders of the same customer and salesman, retrieve the customer ID, salesman ID, total number of orders, and average purchase amount
+SELECT customer_id, salesman_id, COUNT(*), AVG(purch_amt)
+FROM salesorder
+GROUP BY customer_id, salesman_id;
+
+--Q19: For each group of orders of the same customer and salesman that contains more than one order, retrieve the customer ID, salesman ID, and average purchase amount
+SELECT customer_id, salesman_id, AVG(purch_amt)
+FROM salesorder
+GROUP BY customer_id, salesman_id
+HAVING COUNT(*)>1;
+
+--Q20: For each group of more than one order that has the same customer and salesman, and the purchase amount is greater than 100, retrieve the customer ID, salesman ID, and average purchase amount
+SELECT customer_id, salesman_id, AVG(purch_amt)
+FROM salesorder
+WHERE purch_amt>100
+GROUP BY customer_id, salesman_id
+HAVING COUNT(*)>1;
+
+--Q21: For each salesman who has an order with the purchase amount greater than 150, retrieve the salesman ID and sum of purchase amount of the orders sold by the salesman
+SELECT salesman_id, SUM(purch_amt)
+FROM salesorder
+GROUP BY salesman_id
+HAVING MAX(purch_amt)>150;
+
+--Q21A: For each salesman who has ALL order purchase amounts greater than 150, retrieve the salesman ID and sum of purchase amount of the orders sold by the salesman
+SELECT salesman_id, SUM(purch_amt)
+FROM salesorder
+GROUP BY salesman_id
+HAVING MIN(purch_amt)>150;
