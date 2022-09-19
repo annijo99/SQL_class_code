@@ -190,3 +190,5 @@ SELECT salesman_id, SUM(purch_amt)
 FROM salesorder
 GROUP BY salesman_id
 HAVING MIN(purch_amt)>150;
+
+9/19
